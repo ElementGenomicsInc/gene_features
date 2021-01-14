@@ -12,7 +12,7 @@ library(reticulate)
 library(ggrastr)
 library(tidytext)
 library(matrixTests)
-source("/home/ruser/utils.R")
+source("/home/ruser/utils-copy.R")
 
 # Set up parallelization
 # Remember to use htop to delete forgotten forks
@@ -130,5 +130,27 @@ demarkers <- WithinClusterFeatures(so, "seurat_clusters", clus, name)
 PlotAndSaveDEGenesOnUMAP(so, demarkers, name, height = 30, rank_by_tstat = TRUE)
 
 # Save Seurat object
-saveRDS(so, paste0("../data/", name, "/so.rds"))
+#saveRDS(so, paste0("/home/ruser/data/", name, "/so.rds"))
+saveRDS(so, paste0(name, ".rds"))
 
+#Lila: convert to h5ad
+
+#bash commands:
+
+#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+#bash Miniconda3-latest-Linux-x86_64.sh
+
+##Follow installer instructions
+
+#conda install anndata -c bioconda
+#conda install loompy -c bioconda
+
+library(reticulate)
+use_condaenv("base", conda="/home/ubuntu/miniconda3/bin/conda")
+use_python("/home/ubuntu/miniconda3/bin/python", TRUE)
+
+library(sceasy)
+
+so = readRDS(paste0(name, ".rds"))
+sceasy:::convertFormat(so, from="seurat", to="anndata",
+                       outFile=paste(name, "h5ad", sep="."))

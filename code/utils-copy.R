@@ -207,7 +207,7 @@ SaveGlobalFeatures <- function(so, name, compress=T) {
     as.tibble() %>%
     arrange(factor(ENSG, levels = keep$ENSG)) %>%
     fwrite(., 
-           paste0("../features/", name, "/projected_pcaloadings.txt"),
+           paste0("/home/ubuntu/gene_features/features/", name, "/projected_pcaloadings.txt"),
            quote = F, row.names = F, col.names = T, sep = "\t")
   
   # Write out ICA across all cells
@@ -217,13 +217,13 @@ SaveGlobalFeatures <- function(so, name, compress=T) {
     as.tibble() %>%
     arrange(factor(ENSG, levels = keep$ENSG)) %>%
     fwrite(., 
-           paste0("../features/", name, "/projected_icaloadings.txt"),
+           paste0("/home/ubuntu/gene_features/features/", name, "/projected_icaloadings.txt"),
            quote = F, row.names = F, col.names = T, sep = "\t")
   
   # Compress if directed
   if (compress) {
-    system(paste0("gzip ../features/", name, "/projected_pcaloadings.txt"))
-    system(paste0("gzip ../features/", name, "/projected_icaloadings.txt"))
+    system(paste0("gzip /home/ubuntu/gene_features/features/", name, "/projected_pcaloadings.txt"))
+    system(paste0("gzip /home/ubuntu/gene_features/features/", name, "/projected_icaloadings.txt"))
   }
 }
 
